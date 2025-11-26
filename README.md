@@ -85,7 +85,6 @@ The model consists of three core modules:
 | MonoCon | 86ms | 22.26 | 51.65 | 33.38 | 64.53 |
 | MonoLSS | 96ms | 22.79 | 51.89 | 33.66 | 65.03 |
 | **ARE-stereo** | **92ms** | 22.17 | **52.14** | 32.97 | **65.35** |
-
 ---
 
 # Inference Demo
