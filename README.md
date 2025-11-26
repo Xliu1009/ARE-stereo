@@ -88,7 +88,7 @@ The model consists of three core modules:
 
 ---
 
-# 🧪 Inference Demo
+# Inference Demo
 
 ```bash
 python demo.py --model_path checkpoints/are_stereo.pth \
@@ -96,19 +96,19 @@ python demo.py --model_path checkpoints/are_stereo.pth \
                --right_img demo/000001_right.png
 ```
 
-# 🧵 Training
+# Training
 
 <!-- ## Step 1 — Train Monocular Stage
 ```bash
 python train_mono.py --cfg configs/mono.yaml
 ``` -->
 
-## Step 2 — Train Stereo Stage
+## Train Stereo Stage
 ```bash
 python main.py #--cfg configs/stereo.yaml
 ```
-
-> ⚠️ **DL-stereo dataset：**  
+## DL-stereo dataset
+> ⚠️
 > Due to privacy policies, only a subset of the data is currently released; the full version will be made available after the paper is officially accepted. If you require early access, please contact the authors.
 
 # 🙏 Acknowledgements
