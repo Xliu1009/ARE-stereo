@@ -16,7 +16,6 @@ ARE-stereo is a real-time 3D object detection model designed for urban rail tran
 
 ![图片说明](C:\Users\Administrator\Desktop\ARE-stereo\ARE-stereo-code\images\fig2_5.png)  
 
-
 The model consists of three core modules:
 
 ### 1. Feature Extractor
