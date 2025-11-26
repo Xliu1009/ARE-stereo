@@ -1,34 +1,34 @@
 # ARE-stereo: Real-time Stereo 3D Object Detection with Adaptive ROI Enhancement
 
-ARE-stereo 是一个为城市轨道交通场景设计的实时 3D 目标检测模型，采用单目-双目级联结构，并提出 **Pseudo Disparity Enhancement（PDE）** 与 **Adaptive ROI Augmentation（ARA）** 两个关键策略。模型在远距、小目标与遮挡目标上显著提升检测效果，同时保持实时性，已在真实有轨电车场景部署验证。
 
+ARE-stereo is a real-time 3D object detection model designed for urban rail transit scenarios. It adopts a monocular-stereo cascaded architecture and introduces two key strategies: **Pseudo Disparity Enhancement (PDE)** and **Adaptive ROI Augmentation (ARA)**. The model significantly improves detection performance for distant, small, and occluded objects while maintaining real-time efficiency, and has been validated through deployment in real-world tram scenarios.
 
 ## 🌟 Highlights
 
-- 实时性能：单 NVIDIA 2080Ti 上 70–90ms 推理速度  
-- 更高精度：KITTI 与 自建DL-Stereo数据集上均优于现有实时模型  
-- PDE：恢复被抑制 ROI（远距/遮挡小目标）  
-- ARA：自适应扩增 3D ROI，避免 stereo 特征缺失  
-- 嵌入式可部署：Xavier / Orin 上经 TensorRT 验证，满足轨交实时需求  
-- 实际应用：已在大连 202 电车真实线路进行测试
+- Real-time performance: 70–90 ms inference latency on a single NVIDIA 2080 Ti GPU.  
+- Higher accuracy: Outperforms existing real-time models on both the KITTI benchmark and our self-constructed DL-Stereo dataset.
+-  PDE: Recovers suppressed regions of interest (distant or occluded small objects).
+- ARA: Adaptively augments 3D ROIs to prevent loss of stereo features.
+- Embedded deployable: Validated with TensorRT on Xavier / Orin, meeting real-time requirements for rail transit applications.
+- Practical application: Tested on the real-world Dalian 202 tram line.
 
 ## 🚀 Model Architecture Overview
 
-模型包含 3 个核心模块：
+The model consists of three core modules:
 
-### 1. Feature Extractor（共享 Backbone + 多任务预测头）
-- 左右视图分别输出 feature map  
-- 预测：2D center、offset、shape、depth、orientation
+### 1. Feature Extractor
+- The left and right views independently output their respective feature maps.
+- prediction：2D center、offset、shape、depth、orientation
 
 ### 2. ROI Generator + PDE
-- PDE 利用从右目视差推断的 pseudo disparity  
-- Warp 右目 ROI 到左目特征  
-- 恢复被压低置信度的远距/小目标 ROI，提高召回率
+- PDE leverages pseudo disparity inferred from the right-view disparity
+- Warps right-view ROIs onto the left-view feature maps 
+- Recovers distant/small-object ROIs whose confidences have been suppressed, improving recall
 
 ### 3. Stereo Detector + ARA
-- 构建局部 FCE（Feature Consistency Embedding）体积  
-- ARA 根据深度不确定性膨胀 ROI  
-- Stereo head 进行最终 3D refinement
+- Constructs local FCE (Feature Consistency Embedding) volumes
+- ARA method augments ROIs according to depth uncertainty
+- The stereo head predicts the final 3D refinement
 
 ---
 
@@ -36,7 +36,7 @@ ARE-stereo 是一个为城市轨道交通场景设计的实时 3D 目标检测�
 
 ## 1. KITTI 3D Detection Benchmark（Car, IoU=0.7）
 
-### 1.1 使用额外监督（如深度）的模型对比
+### 1.1 Comparison with models that use additional supervision
 
 | Model | Time ↓ | AP3D / APBEV (Val: Easy/Mod./Hard) | AP3D (Test: Easy/Mod./Hard) | Training Dependency |
 |------|-------|--------------------------------------|-------------------------------|----------------------|
@@ -65,9 +65,9 @@ ARE-stereo 是一个为城市轨道交通场景设计的实时 3D 目标检测�
 
 ---
 
-## 3. Ablation Study（消融实验）
+## 3. Ablation Study
 
-### 3.1 PDE / ARA 消融
+### 3.1 PDE / ARA
 
 | Baseline | PDE | ARA | Time ↓ | AP3D | APBEV |
 |----------|-----|------|--------|-------|--------|
@@ -75,7 +75,7 @@ ARE-stereo 是一个为城市轨道交通场景设计的实时 3D 目标检测�
 | ✓ | ✓ | – | 76ms | 51.57 | 64.27 |
 | ✓ | ✓ | ✓ | 92ms | **52.14** | **65.35** |
 
-### 3.2 不同 Monocular Stage 替换实验
+### 3.2 Effects of different monocular stage
 
 | Mono Model | Stereo Time | Mono AP3D | Stereo AP3D | Mono APBEV | Stereo APBEV |
 |------------|-------------|-----------|--------------|--------------|----------------|
@@ -96,20 +96,20 @@ python demo.py --model_path checkpoints/are_stereo.pth \
 
 # 🧵 Training
 
-## Step 1 — Train Monocular Stage
+<!-- ## Step 1 — Train Monocular Stage
 ```bash
 python train_mono.py --cfg configs/mono.yaml
-```
+``` -->
 
 ## Step 2 — Train Stereo Stage
 ```bash
-python train_stereo.py --cfg configs/stereo.yaml
+python main.py #--cfg configs/stereo.yaml
 ```
 
-> ⚠️ **DL-stereo 数据集：**  
-> 由于隐私政策，目前仅公布部分数据；完整版将在论文正式录用后发布。如需提前获取，请联系作者。
+> ⚠️ **DL-stereo dataset：**  
+> Due to privacy policies, only a subset of the data is currently released; the full version will be made available after the paper is officially accepted. If you require early access, please contact the authors.
 
 # 🙏 Acknowledgements
 - CenterNet  
-- RTM3D  
-- RTS3D  
+- - [**RTM3D**](https://github.com/Banconxuan/RTM3D)
+- [**RTS3D** ](https://github.com/Banconxuan/RTS3D)
