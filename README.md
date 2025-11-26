@@ -105,7 +105,7 @@ python train_mono.py --cfg configs/mono.yaml
 
 ## Train Stereo Stage
 ```bash
-python main.py #--cfg configs/stereo.yaml
+python main.py 
 ```
 ## DL-stereo dataset
 > ⚠️
